@@ -1,6 +1,15 @@
 body {
     margin: 5rem;
 }
+
+.start {
+    background-color: orange;
+}
+
+.end {
+    background-color: green;
+}
+
 #grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
@@ -10,6 +19,9 @@ body {
     width: 45%;
 
 }
+
+
+
 .north {
     border-top: solid;
 }
@@ -23,12 +35,4 @@ body {
 }
 .east {
     border-right: solid;
-}
-
-#start {
-    background-color: orange;
-}
-
-#end {
-    background-color: green;
 }
