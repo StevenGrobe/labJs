@@ -20,30 +20,30 @@
     <script>
         console.log(data)
         var grid = document.getElementById("grid")
-        
         for (var i = 0; i < data.length; i++) {            
             var div = document.createElement("div");
-            div.id = "x" + data[i].posX + "y" + data[i].posY;
+            div.id = data[i].posX + "." + data[i].posY;
             grid.appendChild(div);
-            for (var j = 0; j < data[i].walls.length; j++) {
-                
-                if (data[i].walls[0] === true) {
-                    div.classList.add("north");
-                }
-
-                if (data[i].walls[1] === true) {
-                    div.classList.add("east");
-                }
-
-                if (data[i].walls[2] === true) {
-                    div.classList.add("south");
-                }
             
-                if (data[i].walls[3] === true) {
-                    div.classList.add("west");
+            for (var j = 0; j < data[i].walls.length; j++) {    
+                if (data[i].walls[j] === true) {
+                    if (j == 0) {
+                        div.classList.add("north");
+                    } else if (j == 1) {
+                        div.classList.add("east");
+                    } else if (j == 2) {
+                        div.classList.add("south");
+                    } else if (j == 3) {
+                        div.classList.add("west");
+                    }
                 }
             }
         }
+        
+        var start = document.getElementById("0.0")
+        var end = document.getElementById("9.2")
+        start.id = "start"
+        end.id = "end"
     </script>
 </body>
 
