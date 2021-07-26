@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,43 +9,42 @@
     <script src="data.js"></script>
     <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
     <h1>Lab</h1>
     <button id="generateBtn">Generate</button>
     <button id="solveRunBtn">Run Solve</button>
 
-
-
-    <div class="grid">
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-    </div>
+    <div id="grid"></div>
 
     <script>
-    console.log(data)
+        console.log(data)
+        var grid = document.getElementById("grid")
+        
+        for (var i = 0; i < data.length; i++) {            
+            var div = document.createElement("div");
+            div.id = "x" + data[i].posX + "y" + data[i].posY;
+            grid.appendChild(div);
+            for (var j = 0; j < data[i].walls.length; j++) {
+                
+                if (data[i].walls[0] === true) {
+                    div.classList.add("north");
+                }
+
+                if (data[i].walls[1] === true) {
+                    div.classList.add("east");
+                }
+
+                if (data[i].walls[2] === true) {
+                    div.classList.add("south");
+                }
+            
+                if (data[i].walls[3] === true) {
+                    div.classList.add("west");
+                }
+            }
+        }
     </script>
 </body>
+
 </html>
