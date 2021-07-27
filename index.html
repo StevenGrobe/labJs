@@ -19,41 +19,91 @@
 
     <script>
         console.log(data)
-        var grid = document.getElementById("grid")
-        for (var i = 0; i < data.length; i++) {            
-            var div = document.createElement("div");
-            div.id = data[i].posX + "." + data[i].posY;
-            grid.appendChild(div);
-            
-            for (var j = 0; j < data[i].walls.length; j++) {    
-                if (data[i].walls[j] === true) {
-                    if (j == 0) {
-                        div.classList.add("north");
-                    } else if (j == 1) {
-                        div.classList.add("east");
-                    } else if (j == 2) {
-                        div.classList.add("south");
-                    } else if (j == 3) {
-                        div.classList.add("west");
+        createGrid()
+        var currentP = data[0];
+        currentP.visited = true;
+        for (var k = 0; k < 38; k++) {
+            currentP = move(currentP)
+        }
+
+
+
+
+        // Fonction qui crée un maze en f(data)
+        function createGrid() {
+            var grid = document.getElementById("grid")
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                div.id = data[i].posX + "." + data[i].posY;
+                grid.appendChild(div);
+
+                for (var j = 0; j < data[i].walls.length; j++) {
+                    if (data[i].walls[j] === true) {
+                        if (j == 0) {
+                            div.classList.add("north");
+                        } else if (j == 1) {
+                            div.classList.add("east");
+                        } else if (j == 2) {
+                            div.classList.add("south");
+                        } else if (j == 3) {
+                            div.classList.add("west");
+                        }
                     }
                 }
             }
+            setStartEnd()
         }
-        
-        var start = document.getElementById("0.0")
-        var end = document.getElementById("9.2")
-        start.style.backgroundColor="#FF7F00"
-        end.style.backgroundColor="#008000"
 
+        // Place le départ & fin 
+        function setStartEnd() {
+            var start = document.getElementById("0.0")
+            var end = document.getElementById("9.2")
+            start.style.backgroundColor = "#FF7F00"
+            end.style.backgroundColor = "#008000"
+        }
 
-        var currentP = start;
+        //Avance 
+        function move(currentP) {
+            var currentPy = currentP.posY;
+            var currentPx = currentP.posX;
+            console.log("xy:", currentPx, currentPy);
+            for (var j = 0; j < currentP.walls.length; j++) {
+                if (currentP.walls[j] === false){
+                    if (j == 0) {
+                        if (data.find(element => element.posY == currentP.posY-1 && element.posX == currentP.posX).visited !== true) {
+                        currentPy = currentP.posY - 1
+                        break;
+                        }
+                    } else if (j == 1) {
+                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX+1).visited !== true) {
+                        currentPx = currentP.posX + 1
+                        break;
+                        }
+                    } else if (j == 2) {
+                        if (data.find(element => element.posY == currentP.posY+1 && element.posX == currentP.posX).visited !== true) {
+                        console.log("conditionOK");
+                            currentPy = currentP.posY + 1
+                        break;
+                        }
+                    } else if (j == 3) {
+                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX-1).visited !== true) {
+                        currentPx = currentP.posX - 1
+                        break;
+                        }
+                    }
+                }
+            }
+            currentP = data.find(element => element.posY == currentPy && element.posX == currentPx)
+            currentP.visited = true;
+            color(currentP.posX, currentP.posY)
+            return currentP;
+        }
 
-
-
-// is visited
-// no way
-
-
+        // Color path
+        function color(currentPx, currentPy) {
+            var here = document.getElementById(currentPx + "." + currentPy)
+            here.style.backgroundColor = "#e5e5e5"
+        }
     </script>
 </body>
 
