@@ -12,9 +12,6 @@
 
 <body>
     <h1>Lab</h1>
-    <button id="generateBtn">Generate</button>
-    <button id="solveRunBtn">Run Solve</button>
-
     <div id="grid"></div>
 
     <script>
@@ -24,14 +21,8 @@
         currentP.visited = true;
         currentP.noWay = false;
         var theWay = [];
-
-        for (var k = 0; k < 97; k++) {
-            currentP = move(currentP)
-        }
-/*         while (currentP.posX < 9 && currentP.posY < 2) {
-            currentP = move(currentP)
-        } */
-
+        var end = data.find(element => element.posY == 14 && element.posX == 14)
+        dfs();
 
 
 
@@ -60,12 +51,11 @@
             setStartEnd()
         }
 
-        // Place le départ & fin 
-        function setStartEnd() {
-            var start = document.getElementById("0.0")
-            var end = document.getElementById("9.2")
-            start.style.backgroundColor = "#FF7F00"
-            end.style.backgroundColor = "#008000"
+        async function dfs() {
+            while (currentP != end) {
+                let delayres = await delay(200);
+                currentP = move(currentP)
+            }
         }
 
         //Avance 
@@ -123,10 +113,28 @@
             here.style.backgroundColor = "#e5e5e5"
         }
 
+        // color noway
         function colorNoWay(currentPx, currentPy) {
             var here = document.getElementById(currentPx + "." + currentPy)
             here.style.backgroundColor = "#696969"
         }
+
+        // color le départ & fin 
+        function setStartEnd() {
+            var start = document.getElementById("0.0")
+            var end = document.getElementById("14.14")
+            start.style.backgroundColor = "#FF7F00"
+            end.style.backgroundColor = "#008000"
+        }
+
+        function delay(delayInms) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(2);
+                }, delayInms);
+            });
+        }
+
     </script>
 </body>
 
