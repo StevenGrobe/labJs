@@ -22,9 +22,15 @@
         createGrid()
         var currentP = data[0];
         currentP.visited = true;
-        for (var k = 0; k < 38; k++) {
+        currentP.noWay = false;
+        var theWay = [];
+
+        for (var k = 0; k < 97; k++) {
             currentP = move(currentP)
         }
+/*         while (currentP.posX < 9 && currentP.posY < 2) {
+            currentP = move(currentP)
+        } */
 
 
 
@@ -66,43 +72,60 @@
         function move(currentP) {
             var currentPy = currentP.posY;
             var currentPx = currentP.posX;
+            theWay.push(currentP)
+            console.log(theWay)
             console.log("xy:", currentPx, currentPy);
             for (var j = 0; j < currentP.walls.length; j++) {
-                if (currentP.walls[j] === false){
+                if (currentP.walls[j] === false) {
                     if (j == 0) {
-                        if (data.find(element => element.posY == currentP.posY-1 && element.posX == currentP.posX).visited !== true) {
-                        currentPy = currentP.posY - 1
-                        break;
+                        if (data.find(element => element.posY == currentP.posY - 1 && element.posX == currentP.posX).visited !== true) {
+                            currentPy = currentP.posY - 1
+                            break;
                         }
                     } else if (j == 1) {
-                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX+1).visited !== true) {
-                        currentPx = currentP.posX + 1
-                        break;
+                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX + 1).visited !== true) {
+                            currentPx = currentP.posX + 1
+                            break;
                         }
                     } else if (j == 2) {
-                        if (data.find(element => element.posY == currentP.posY+1 && element.posX == currentP.posX).visited !== true) {
-                        console.log("conditionOK");
+                        if (data.find(element => element.posY == currentP.posY + 1 && element.posX == currentP.posX).visited !== true) {
                             currentPy = currentP.posY + 1
-                        break;
+                            break;
                         }
                     } else if (j == 3) {
-                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX-1).visited !== true) {
-                        currentPx = currentP.posX - 1
-                        break;
+                        if (data.find(element => element.posY == currentP.posY && element.posX == currentP.posX - 1).visited !== true) {
+                            currentPx = currentP.posX - 1
+                            break;
                         }
                     }
                 }
             }
-            currentP = data.find(element => element.posY == currentPy && element.posX == currentPx)
-            currentP.visited = true;
-            color(currentP.posX, currentP.posY)
-            return currentP;
+            if ((currentP.posX === currentPx && currentP.posY === currentPy) === true) {
+                console.log("impasse")
+                currentP.noWay = true
+                colorNoWay(currentP.posX, currentP.posY)
+                theWay.pop()
+                var resultat = theWay.pop()
+                currentP = data.find(element => element.posY == resultat.posY && element.posX == resultat.posX)
+                console.log(currentP)
+                return currentP;
+            } else {
+                currentP = data.find(element => element.posY == currentPy && element.posX == currentPx)
+                currentP.visited = true;
+                color(currentP.posX, currentP.posY)
+                return currentP;
+            }
         }
 
         // Color path
         function color(currentPx, currentPy) {
             var here = document.getElementById(currentPx + "." + currentPy)
             here.style.backgroundColor = "#e5e5e5"
+        }
+
+        function colorNoWay(currentPx, currentPy) {
+            var here = document.getElementById(currentPx + "." + currentPy)
+            here.style.backgroundColor = "#696969"
         }
     </script>
 </body>
