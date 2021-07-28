@@ -21,7 +21,12 @@
         currentP.visited = true;
         currentP.noWay = false;
         var theWay = [];
-        var end = data.find(element => element.posY == 14 && element.posX == 14)
+        var end = data.find(element => element.posY == 12 && element.posX == 2)
+
+        /*         for (var i = 0; i < 30; i++) {
+                    currentP = move(currentP)
+                    intersection()
+                } */
         dfs();
 
 
@@ -53,8 +58,9 @@
 
         async function dfs() {
             while (currentP != end) {
-                let delayres = await delay(200);
+                let delayres = await delay(50);
                 currentP = move(currentP)
+                intersection()
             }
         }
 
@@ -63,7 +69,7 @@
             var currentPy = currentP.posY;
             var currentPx = currentP.posX;
             theWay.push(currentP)
-            console.log(theWay)
+            // console.log(theWay)
             console.log("xy:", currentPx, currentPy);
             for (var j = 0; j < currentP.walls.length; j++) {
                 if (currentP.walls[j] === false) {
@@ -97,13 +103,20 @@
                 theWay.pop()
                 var resultat = theWay.pop()
                 currentP = data.find(element => element.posY == resultat.posY && element.posX == resultat.posX)
-                console.log(currentP)
+                // console.log(currentP)
                 return currentP;
             } else {
                 currentP = data.find(element => element.posY == currentPy && element.posX == currentPx)
                 currentP.visited = true;
                 color(currentP.posX, currentP.posY)
                 return currentP;
+            }
+        }
+
+        function intersection() {
+            var count = currentP.walls.filter(Boolean).length;
+            if (count <= 1) {
+                console.log("intersection at " + currentP.posX + "." + currentP.posY)
             }
         }
 
@@ -122,11 +135,12 @@
         // color le départ & fin 
         function setStartEnd() {
             var start = document.getElementById("0.0")
-            var end = document.getElementById("14.14")
+            var end = document.getElementById("2.12")
             start.style.backgroundColor = "#FF7F00"
             end.style.backgroundColor = "#008000"
         }
 
+        // Delay affichage
         function delay(delayInms) {
             return new Promise(resolve => {
                 setTimeout(() => {
